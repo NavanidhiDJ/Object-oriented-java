@@ -1,0 +1,93 @@
+import java.util.*;
+
+class LibraryBook {
+    String name;
+    String author;
+    double price;
+    int num_of_pg;
+
+    LibraryBook() {
+        name = "java programming";
+        author = "default";
+        price = 500.0;
+        num_of_pg = 300;
+    }
+
+    LibraryBook(String name, String author, double price, int num_of_pg) {
+        this.name = name;
+        this.author = author;
+        this.price = price;
+        this.num_of_pg = num_of_pg;
+    }
+
+    void set_details(String nam, String aut, double pri, int npg) {
+        name = nam;
+        author = aut;
+        price = pri;
+        num_of_pg = npg;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getNumPages() {
+        return num_of_pg;
+    }
+
+    @Override
+    public String toString() {
+        return "LibraryBook{" + "name='" + name + '\'' + ", author='" + author + '\'' + ", price=" + price + ", numPages=" + num_of_pg + '}';
+    }
+}
+
+class DisplayLibrary {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+
+        LibraryBook book1 = new LibraryBook();
+        System.out.println(book1);
+
+        LibraryBook book2 = new LibraryBook();
+        book2.set_details("OOJ", "xyz", 650, 350);
+        System.out.println(book2);
+
+        LibraryBook book3 = new LibraryBook("dsa in java", "reema", 475, 335);
+        System.out.println(book3);
+
+        System.out.print("Enter the number of books: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // Consume the newline character
+
+        LibraryBook[] books = new LibraryBook[n];
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter the book details:");
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+            System.out.print("Author: ");
+            String author = sc.nextLine();
+            System.out.print("Price: ");
+            double price = sc.nextDouble();
+            System.out.print("Number of pages: ");
+            int num_of_pg = sc.nextInt();
+            sc.nextLine(); // Consume the newline character
+
+            books[i] = new LibraryBook(name, author, price, num_of_pg);
+        }
+
+        System.out.println("\nBook details:");
+        for (LibraryBook book : books) {
+            System.out.println(book);
+        }
+
+        sc.close();
+    }
+}
