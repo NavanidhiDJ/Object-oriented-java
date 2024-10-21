@@ -1,0 +1,77 @@
+abstract class Shape{
+    double dim1,dim2;
+    Shape(double i,double j){
+        dim1=i;
+        dim2=j;
+    }
+
+    Shape (){
+        dim1=0;
+        dim2=0;
+    }
+           
+    abstract double printArea();
+
+    void SetDim(double a, double b){
+        this.dim1=a;
+        this.dim2=b;
+    }
+}
+class Rectangle extends Shape {
+    Rectangle (double a ,double b){
+        super(a,b);
+    }
+    Rectangle(){
+        super();
+    }
+    double printArea(){
+        return dim1*dim2;
+    }
+}
+class Triangle extends Shape {
+    Triangle (double a, double b){
+        super(a,b);
+    }
+    Triangle(){
+        super();
+    }
+    double printArea(){
+        return 0.5*dim1*dim2;
+    }
+}
+class Circle extends Shape {
+    Circle (double r1,double r2){
+        super(r1,r2);
+    }
+    Circle(){
+        super();
+    }
+    double printArea(){
+        return 3.14*dim1*dim2;
+    }
+}
+class AreaDemo{
+    public static void main(String args []){
+        Rectangle r1=new Rectangle(10.0,20.0);
+        Triangle t1=new Triangle(10.0,20.0);
+        Circle c1=new Circle(7,7);
+       
+        System.out.println("the area of the Rectangle1 is "+r1.printArea());
+        System.out.println("the area of the Triangle1 is "+t1.printArea());
+        System.out.println("the area of the Circle1 is "+c1.printArea());
+  
+        Rectangle r2=new Rectangle();
+        Triangle t2=new Triangle();
+        Circle c2=new Circle();
+ 
+        System.out.println("calculating area using set dimention method");
+   
+        r2.SetDim(5,10);
+        t2.SetDim(5,10);
+        c2.SetDim(14,14);
+
+        System.out.println("the area of the Rectangle2 is "+r2.printArea());
+        System.out.println("the area of the Triangle2 is "+t2.printArea());
+        System.out.println("the area of the Circle2 is "+c2.printArea());
+    }
+}
