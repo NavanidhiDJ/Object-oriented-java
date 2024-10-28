@@ -1,0 +1,128 @@
+import java.util.*;
+
+abstract class Account {
+    String customerName;
+    String accountNumber;
+    double balance;
+
+    Account(String customerName, String accountNumber, double initialBalance) {
+        this.customerName = customerName;
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    double getBalance() {
+        return balance;
+    }
+
+    abstract void withdraw(double amount);
+}
+
+class SavingsAccount extends Account {
+    double interestRate;
+
+    SavingsAccount(String customerName, String accountNumber, double initialBalance, double interestRate) {
+        super(customerName, accountNumber, initialBalance);
+        this.interestRate = interestRate;
+    }
+
+    void computeAndDepositInterest() {
+        double interest = balance * interestRate / 100;
+        deposit(interest);
+        System.out.println("Interest deposited: " + interest);
+    }
+
+    @Override
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            deposit(-amount);
+            System.out.println("Withdrew: " + amount);
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+        }
+    }
+}
+
+class CurrentAccount extends Account {
+    double minimumBalance;
+    double serviceCharge;
+
+    CurrentAccount(String customerName, String accountNumber, double initialBalance, double minimumBalance, double serviceCharge) {
+        super(customerName, accountNumber, initialBalance);
+        this.minimumBalance = minimumBalance;
+        this.serviceCharge = serviceCharge;
+    }
+
+    @Override
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            deposit(-amount);
+            System.out.println("Withdrew: " + amount);
+            checkMinimumBalance();
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+        }
+    }
+
+    void checkMinimumBalance() {
+        if (balance < minimumBalance) {
+            deposit(-serviceCharge);
+            System.out.println("Service charge applied: " + serviceCharge);
+        }
+    }
+}
+
+class Bank {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Create a Savings Account:");
+        System.out.print("Customer Name: ");
+        String savName = scanner.nextLine();
+        System.out.print("Account Number: ");
+        String savAccountNumber = scanner.nextLine();
+        System.out.print("Initial Balance: ");
+        double savInitialBalance = scanner.nextDouble();
+        System.out.print("Interest Rate: ");
+        double savInterestRate = scanner.nextDouble();
+        SavingsAccount savingsAccount = new SavingsAccount(savName, savAccountNumber, savInitialBalance, savInterestRate);
+
+        System.out.println("\nCreate a Current Account:");
+        scanner.nextLine(); // Consume leftover newline
+        System.out.print("Customer Name: ");
+        String currName = scanner.nextLine();
+        System.out.print("Account Number: ");
+        String currAccountNumber = scanner.nextLine();
+        System.out.print("Initial Balance: ");
+        double currInitialBalance = scanner.nextDouble();
+        System.out.print("Minimum Balance: ");
+        double currMinimumBalance = scanner.nextDouble();
+        System.out.print("Service Charge: ");
+        double currServiceCharge = scanner.nextDouble();
+        CurrentAccount currentAccount = new CurrentAccount(currName, currAccountNumber, currInitialBalance, currMinimumBalance, currServiceCharge);
+
+        // Example operations for Savings Account
+        System.out.println("\nSavings Account Operations:");
+        savingsAccount.deposit(200);
+        savingsAccount.computeAndDepositInterest();
+        savingsAccount.withdraw(100);
+        System.out.println("Savings Account Balance: " + savingsAccount.getBalance());
+
+        // Example operations for Current Account
+        System.out.println("\nCurrent Account Operations:");
+        currentAccount.deposit(500);
+        currentAccount.withdraw(600);
+        System.out.println("Current Account Balance: " + currentAccount.getBalance());
+
+        scanner.close();
+    }
+}
